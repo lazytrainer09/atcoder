@@ -1,0 +1,107 @@
+# 複数入力の受け取り
+a = list(map(int, input().split()))
+
+# 昇順のソート
+arr.sort(reverse=True)
+
+# JSのデフォルト
+function Main(input) {
+    input = input.replace(/\n/, "");
+    let [r, x, y] = input.split(" ").map(Number);
+
+
+    console.log(answer);
+}
+Main(require("fs").readFileSync("/dev/stdin", "utf8"));
+
+# 幅優先探索の模範コード
+## 参考URL：https://atcoder.jp/contests/abc007/tasks/abc007_3
+from collections import deque
+
+## 始点からの最小移動回数を管理する2次元配列。-1であれば未訪問であることを表す
+dist = []
+for i in range(H):
+  dist.append([-1]*W)
+
+## キューを用意して始点を入れる
+Q = deque()
+Q.append([sy, sx])
+dist[sy][sx] = 0
+
+## キューから取り出しながら探索する
+while len(Q) > 0:
+  i, j = Q.popleft()
+  ## 4つの隣マスを確認する
+  for i2, j2 in [[i+1, j], [i-1, j], [i, j+1], [i, j-1]]:
+    # もし盤面の範囲内でなければ無視する
+    if not (0 <= i2 < H and 0 <= j2 < W):
+      continue
+    ## もし壁マスであれば無視する
+    if S[i][j] == "#":
+      continue
+    ## もし未訪問（dist[i2][j2]が-1）であれば、距離を更新してキューに入れる
+    if dist[i2][j2] == -1:
+      dist[i2][j2] = dist[i][j] + 1
+      Q.append([i2, j2])
+
+## 始点から終点までの移動回数を出力
+print(dist[gy][gx])
+
+# 深さ優先探索の模範コード
+import sys
+sys.setrecursionlimit(1000000)
+
+## 訪問済みかどうかを管理する2次元配列
+visited = []
+for i in range(H):
+  visited.append([False]*W)
+
+## 再帰関数dfsを定義する
+def dfs(i, j):
+  visited[i][j] = True
+  # ４方向の隣マスを探索する
+  for i2, j2 in [[i+1, j], [i-1, j], [i, j+1], [i, j-1]]:
+    # もし盤面の範囲内でなければ無視する
+    if not (0 <= i2 < H and 0 <= j2 < W):
+      continue
+    # もし壁マスであれば無視する
+    if S[i][j] == "#":
+      continue
+    # もし未訪問であれば再帰的に呼び出す
+    if not visited[i2][j2]:
+      dfs(i2, j2)
+
+## 始点から呼び出す
+dfs(si, sj)
+
+# ナップサック問題
+# 参考：https://atcoder.jp/contests/dp/tasks/dp_d
+## 初期値を０に変更
+ws = [0]
+vs = [0]
+
+## 指定された容量、価値を入力、
+for i in range(N):
+  w, v = list(map(int, input().split()))
+  ws.append(w)
+  vs.append(v)
+
+## i番目の品物が入った時の価値を非常に小さい値で設定
+value = []
+for i in range(N+1):
+  value.append([-10**18]*(W+1))
+
+## 初期値入力
+value[0][0] = 0
+
+for i in range(1, N+1):
+  for w in range(W+1):
+## i番目の品物を入れないとき、valueの値はi-1
+    value[i][w] = max(value[i][w], value[i-1][w])
+## i番目の品物を入れる余地があるとき、valueの値をw-wsの時の値に加算する
+    if w - ws[i] >= 0:
+      value[i][w] = max(value[i][w], value[i-1][w-ws[i]]+vs[i])
+
+## N番目の品物まで入れた時の最大値を出力する
+ans = max(value[N])
+print(ans)
