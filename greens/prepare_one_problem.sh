@@ -3,16 +3,11 @@
 
 # コンテスト-コンテスト番号-問題番号で入力
 # ex) ABC-234-E
-problem_name=$1
-
-# 事前に作成したいファイルを以下に記載
-files=(
-    "answer.py"
-    "input.txt"
-)
 
 mkdir $1
+code $1/input.txt
 
-for file in "${files[@]}"; do
-    code $1/$file
-done
+file_path=/Users/futami/workspace/atcoder/template.py
+
+cp $file_path $1/answer.py
+code $1/answer.py
