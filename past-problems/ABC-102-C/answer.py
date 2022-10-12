@@ -1,19 +1,18 @@
 N = int(input())
 A = list(map(int, input().split()))
 
-A_dash = []
+B = []
 for i in range(1, N + 1):
-    A_dash.append(A[i - 1] - i)
-A_dash.sort()
+    B.append(A[i - 1] - i)
+B.sort()
 
-center = N // 2
 if N % 2 == 0:
-    b = (A_dash[center] + A_dash[center - 1]) // 2
+    b = (B[N // 2] + B[N // 2 - 1]) // 2
 else:
-    b = A_dash[center]
+    b = B[N // 2]
 
 ans = 0
 for i in range(1, N + 1):
-    ans += abs(A[i - 1] - b - i)
+    ans += abs(B[i - 1] - b)
 
 print(ans)
